@@ -1,8 +1,8 @@
 import {asyncHandler} from "../utils/asyncHandler.js"
-import { ApiError } from "../utils/ApiError.js"
+import {ApiResponse} from "../utils/ApiResponse.js"
+import {ApiError} from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
-import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshToken = async(userId) => {
@@ -193,11 +193,14 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully"))
 })
 
-const getCurrentUser = asyncHandler(async(req, res) => {
-    return res
-    .status(200)
-    .json(200, req.user, "Current User fetched successfully")
-})
+const getCurrentUser = asyncHandler(async (req, res) => {
+  return res.status(200).json({
+    status: 200,
+    user: req.user,
+    message: "Current User fetched successfully"
+  });
+});
+
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
     const {fullName, email} = req.body
